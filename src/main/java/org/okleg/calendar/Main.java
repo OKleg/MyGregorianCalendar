@@ -4,19 +4,30 @@ import org.okleg.calendar.domain.Year;
 import org.okleg.calendar.serialization.CalendarSerializer;
 import org.okleg.calendar.serialization.JsonCalendarSerializer;
 
+import java.util.Scanner;
+
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        int inputYear = 1930;
+        // Подключаем чтение из консоли
+        Scanner scanner = new Scanner(System.in);
 
-        // Создаем бизнес-объект
-        Year calendarYear = new Year(inputYear);
+        System.out.print("Введите номер года: ");
+        if (scanner.hasNextInt()) {
+            int inputYear = scanner.nextInt();
 
-        // Выбираем стратегию отображения (Полиморфизм)
-        CalendarSerializer serializer = new JsonCalendarSerializer();
+            Year calendarYear = new Year(inputYear);
 
-        // Печатаем результат
-        System.out.println(serializer.serialize(calendarYear));
+            CalendarSerializer serializer = new JsonCalendarSerializer();
+
+            String jsonResult = serializer.serialize(calendarYear);
+
+            System.out.println(jsonResult);
+
+        } else {
+            System.out.println("Ошибка: Пожалуйста, введите корректный номер года численного формата.");
+        }
+
     }
 }
