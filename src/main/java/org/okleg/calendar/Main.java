@@ -2,6 +2,7 @@ package org.okleg.calendar;
 
 import org.okleg.calendar.domain.Year;
 import org.okleg.calendar.serialization.CalendarSerializer;
+import org.okleg.calendar.serialization.ConsoleCalendarSerializer;
 import org.okleg.calendar.serialization.JsonCalendarSerializer;
 
 import java.util.Scanner;
@@ -19,7 +20,8 @@ public class Main {
 
             Year calendarYear = new Year(inputYear);
 
-            CalendarSerializer serializer = new JsonCalendarSerializer();
+            //CalendarSerializer serializer = new JsonCalendarSerializer();
+            CalendarSerializer serializer = new ConsoleCalendarSerializer();
 
             String jsonResult = serializer.serialize(calendarYear);
 

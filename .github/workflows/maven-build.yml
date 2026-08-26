@@ -1,0 +1,36 @@
+name: Java CI/CD with Maven
+
+# Триггеры: запускать процесс при любом push или pull-request в ветку main
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Скачиваем актуальный код репозитория на виртуальную машину
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      # 2. Устанавливаем и настраиваем JDK (версию укажите свою, например 17 или 21)
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'maven' # Кэширование зависимостей Maven для ускорения повторных сборок
+
+      # 3. Запускаем тесты и компиляцию (mvn clean package)
+      - name: Build with Maven and Run Tests
+        run: mvn clean package
+
+      # 4. Сохраняем готовый Fat JAR в артефакты GitHub (чтобы его можно было скачать)
+      - name: Upload Single JAR Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: calendar-application
+          path: target/*-jar-with-dependencies.jar
